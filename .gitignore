@@ -4,6 +4,9 @@ prompt.txt
 
 # generated types
 .astro/
+.bolt
+.codesandbox
+.vscode
 
 # dependencies
 node_modules/
