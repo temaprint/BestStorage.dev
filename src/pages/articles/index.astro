@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// Get all markdown files from the articles directory
+const articles = await Astro.glob('./*.md');
+
+// Sort articles by date
+const sortedArticles = articles
+  .map(article => ({
+    ...article.frontmatter,
+    slug: article.file.split('/').pop().replace('.md', '')
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+// Get the latest article
+const latestArticle = sortedArticles[0];
+const otherArticles = sortedArticles.slice(1);
+
+// Format date function
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+---
+
+<Layout title="Cloud Storage Articles">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-white mb-8">Cloud Storage Articles</h1>
+    
+    {latestArticle && (
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold text-accent-blue mb-6">Latest Article</h2>
+        <article class="bg-card rounded-lg p-8 hover:ring-2 hover:ring-accent-blue transition-all border border-accent-blue">
+          <a href={`/articles/${latestArticle.slug}`} class="block">
+            <h2 class="text-3xl font-bold text-white mb-3 hover:text-accent-blue">
+              {latestArticle.title}
+            </h2>
+            <div class="flex items-center text-accent-blue">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+              </svg>
+              <time class="text-sm">
+                {formatDate(latestArticle.date)}
+              </time>
+            </div>
+          </a>
+        </article>
+      </div>
+    )}
+    
+    <div class="space-y-6">
+      <h2 class="text-2xl font-bold text-white mb-6">All Articles</h2>
+      {otherArticles.map(article => (
+        <article class="bg-card rounded-lg p-6 hover:ring-2 hover:ring-accent-blue transition-all">
+          <a href={`/articles/${article.slug}`} class="block">
+            <h3 class="text-xl font-bold text-white mb-2 hover:text-accent-blue">
+              {article.title}
+            </h3>
+            <div class="flex items-center text-accent-blue">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+              </svg>
+              <time class="text-sm">
+                {formatDate(article.date)}
+              </time>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,20 @@
+{
+  "name": "cloud-storage-comparison",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.2.5",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/ts-plugin": "^1.5.2",
+    "tailwindcss": "^3.4.1",
+    "@fontsource/inter": "^5.0.16",
+    "@astrojs/markdown-remark": "^4.2.1"
+  }
+}

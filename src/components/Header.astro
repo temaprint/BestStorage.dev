@@ -1,0 +1,31 @@
+---
+const navItems = [
+  { href: '/compare', text: 'Compare' },
+  { href: '/reviews', text: 'Reviews' },
+  { href: '/articles', text: 'Articles' }
+];
+---
+
+<header class="bg-card shadow-lg">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex">
+        <div class="flex-shrink-0 flex items-center">
+          <a href="/" class="text-white text-xl font-bold">
+            ☁️ BestStorage.dev
+          </a>
+        </div>
+        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+          {navItems.map(item => (
+            <a
+              href={item.href}
+              class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >
+              {item.text}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

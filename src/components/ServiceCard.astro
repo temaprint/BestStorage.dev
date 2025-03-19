@@ -1,0 +1,49 @@
+---
+import type { CloudStorageService } from '../types/CloudStorageService';
+
+interface Props {
+  service: CloudStorageService;
+}
+
+const { service } = Astro.props;
+---
+
+<div class="bg-card rounded-lg shadow-xl p-6 hover:ring-2 hover:ring-accent-blue transition-all">
+  <div class="flex items-center justify-between mb-4">
+    <img src={service.logo} alt={service.name} class="h-8" />
+    <div class="flex items-center">
+      <span class="text-accent-blue text-xl font-bold">{service.rating}</span>
+      <span class="text-gray-400 ml-1">/ 5</span>
+    </div>
+  </div>
+  
+  <h2 class="text-white text-xl font-semibold mb-2">{service.name}</h2>
+  
+  <div class="space-y-2 text-gray-300">
+    <p>Free Storage: {service.pricing.free_plan_storage}</p>
+    <p>Starting at: ${service.pricing.basic_plan_cost}/month</p>
+  </div>
+  
+  <div class="mt-4 space-y-2">
+    <div class="flex items-center text-gray-300">
+      <svg class="w-5 h-5 mr-2 text-accent-blue" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+      </svg>
+      {service.storage_features.max_storage_capacity} Max Storage
+    </div>
+    <div class="flex items-center text-gray-300">
+      <svg class="w-5 h-5 mr-2 text-accent-blue" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+      </svg>
+      {service.security.encryption} Encryption
+    </div>
+  </div>
+  
+  <a
+    href={`/service/${service.slug}`}
+    class="mt-6 block w-full bg-accent-blue text-white text-center py-2 rounded-md hover:bg-blue-600 transition-colors"
+  >
+    View Details
+  </a>
+</div>

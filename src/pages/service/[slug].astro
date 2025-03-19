@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { cloudServices } from '../../data/services';
+
+export function getStaticPaths() {
+  return cloudServices.map(service => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+
+const features = [
+  {
+    title: "Storage Features",
+    items: [
+      `Maximum Storage: ${service.storage_features.max_storage_capacity}`,
+      `File Size Limit: ${service.storage_features.file_size_limit}`,
+      `File Versioning: ${service.storage_features.versioning ? "Yes" : "No"}`,
+      `Backup Support: ${service.storage_features.backup_support ? "Yes" : "No"}`
+    ]
+  },
+  {
+    title: "Security",
+    items: [
+      `Encryption: ${service.security.encryption}`,
+      `Zero-Knowledge: ${service.security.zero_knowledge_encryption ? "Yes" : "No"}`,
+      `2FA: ${service.security.two_factor_authentication ? "Yes" : "No"}`
+    ]
+  },
+  {
+    title: "Collaboration",
+    items: [
+      `File Sharing: ${service.collaboration.file_sharing ? "Yes" : "No"}`,
+      `Real-time Editing: ${service.collaboration.real_time_editing ? "Yes" : "No"}`,
+      `Team Features: ${service.collaboration.team_collaboration ? "Yes" : "No"}`
+    ]
+  }
+];
+---
+
+<Layout title={`${service.name} - Cloud Storage Details`}>
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-card rounded-lg shadow-xl p-8 mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center">
+          <img src={service.logo} alt={service.name} class="h-12 w-auto mr-4" />
+          <h1 class="text-3xl font-bold text-white">{service.name}</h1>
+        </div>
+        <div class="flex items-center">
+          <span class="text-accent-blue text-2xl font-bold">{service.rating}</span>
+          <span class="text-gray-400 ml-1">/ 5</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div class="bg-background rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-white mb-4">Pricing Plans</h2>
+          <ul class="space-y-3 text-gray-300">
+            <li>Free: {service.pricing.free_plan_storage}</li>
+            <li>Basic: ${service.pricing.basic_plan_cost}/month</li>
+            <li>Premium: ${service.pricing.premium_plan_cost}/month</li>
+            <li>Business: ${service.pricing.business_plan_cost}/month</li>
+          </ul>
+        </div>
+
+        <div class="bg-background rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-white mb-4">Platform Support</h2>
+          <ul class="space-y-3 text-gray-300">
+            <li>Web Browser: {service.platform_support.web_browser ? "✓" : "✗"}</li>
+            <li>Desktop App: {service.platform_support.desktop_app ? "✓" : "✗"}</li>
+            <li>Mobile App: {service.platform_support.mobile_app ? "✓" : "✗"}</li>
+            {service.platform_support.third_party_integrations.length > 0 && (
+              <li>Integrations: {service.platform_support.third_party_integrations.join(", ")}</li>
+            )}
+          </ul>
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        {features.map(section => (
+          <div class="bg-background rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-white mb-4">{section.title}</h2>
+            <ul class="space-y-3 text-gray-300">
+              {section.items.map(item => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8">
+        <h2 class="text-xl font-semibold text-white mb-4">Notable Features</h2>
+        <ul class="list-disc list-inside space-y-2 text-gray-300">
+          {service.notable_features.map(feature => (
+            <li>{feature}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="mt-8">
+        <h2 class="text-xl font-semibold text-white mb-4">User Reviews</h2>
+        <div class="space-y-4">
+          {service.reviews.map(review => (
+            <div class="bg-background rounded-lg p-4">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-white font-medium">{review.user}</span>
+                <div class="flex items-center">
+                  <span class="text-accent-blue font-bold">{review.rating}</span>
+                  <span class="text-gray-400 ml-1">/ 5</span>
+                </div>
+              </div>
+              <p class="text-gray-300">{review.comment}</p>
+              <p class="text-gray-400 text-sm mt-2">{review.date}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-8 text-center">
+        <a
+          href={service.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block bg-accent-blue text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          Visit {service.name}
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

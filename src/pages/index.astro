@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { cloudServices } from '../data/services';
+
+// Sort services by rating for the table
+const sortedServices = [...cloudServices].sort((a, b) => b.rating - a.rating);
+---
+
+<Layout title="Cloud Storage Comparison">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-white mb-4">
+      Compare Cloud Storage Services
+    </h1>
+    <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+      Find the perfect cloud storage solution for your needs. Compare features, pricing, and security across top providers.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+    {cloudServices.map(service => (
+      <ServiceCard service={service} />
+    ))}
+  </div>
+
+  <div class="overflow-x-auto">
+    <h2 class="text-2xl font-bold text-white mb-6">Quick Comparison Table</h2>
+    <table class="w-full text-left border-collapse mb-8">
+      <thead>
+        <tr class="bg-card">
+          <th class="p-4 text-white font-semibold border-b border-gray-700">Service</th>
+          <th class="p-4 text-white font-semibold border-b border-gray-700">Rating</th>
+          <th class="p-4 text-white font-semibold border-b border-gray-700">Free Storage</th>
+          <th class="p-4 text-white font-semibold border-b border-gray-700">Basic Plan</th>
+          <th class="p-4 text-white font-semibold border-b border-gray-700">Max Storage</th>
+          <th class="p-4 text-white font-semibold border-b border-gray-700">Encryption</th>
+          <th class="p-4 text-white font-semibold border-b border-gray-700">Zero-Knowledge</th>
+          <th class="p-4 text-white font-semibold border-b border-gray-700">Real-time Collab</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sortedServices.map((service, index) => (
+          <tr class={index < 3 ? "bg-accent-blue bg-opacity-10" : "hover:bg-card"}>
+            <td class="p-4 text-white border-b border-gray-700">
+              <a href={`/service/${service.slug}`} class="hover:text-accent-blue">
+                {service.name}
+              </a>
+            </td>
+            <td class="p-4 text-white border-b border-gray-700">
+              <span class={index < 3 ? "text-accent-blue font-bold" : ""}>
+                {service.rating}
+              </span>
+            </td>
+            <td class="p-4 text-gray-300 border-b border-gray-700">{service.pricing.free_plan_storage}</td>
+            <td class="p-4 text-gray-300 border-b border-gray-700">${service.pricing.basic_plan_cost}/mo</td>
+            <td class="p-4 text-gray-300 border-b border-gray-700">{service.storage_features.max_storage_capacity}</td>
+            <td class="p-4 text-gray-300 border-b border-gray-700">{service.security.encryption}</td>
+            <td class="p-4 text-gray-300 border-b border-gray-700">
+              {service.security.zero_knowledge_encryption ? "✓" : "✗"}
+            </td>
+            <td class="p-4 text-gray-300 border-b border-gray-700">
+              {service.collaboration.real_time_editing ? "✓" : "✗"}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Layout>
